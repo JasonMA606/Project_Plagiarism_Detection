@@ -122,6 +122,8 @@ if __name__ == '__main__':
                         help='Output Dimension (default = 1)')
     parser.add_argument('--hidden_dim', type=int, default=10, metavar='H',
                         help='Hiddem Dimension (default = 10)')
+    parser.add_argument('--lr', type=float, default=0.001, metavar='LR',
+                        help='Learing Rate (default = 0.001)')
     
     # args holds all passed-in arguments
     args = parser.parse_args()
@@ -140,11 +142,11 @@ if __name__ == '__main__':
     ## TODO:  Build the model by passing in the input params
     # To get params from the parser, call args.argument_name, ex. args.epochs or ards.hidden_dim
     # Don't forget to move your model .to(device) to move to GPU , if appropriate
-    model = BinaryClassifier(args.input_features, args.hidden_dim, args.output_dim)
+    model = BinaryClassifier(args.input_features, args.hidden_dim, args.output_dim).to(device)
 
     ## TODO: Define an optimizer and loss function for training
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
-    criterion = nn.BCELoss()
+    criterion = torch.nn.BCELoss()
 
     # Trains the model (given line of code, which calls the above training function)
     train(model, train_loader, args.epochs, criterion, optimizer, device)
